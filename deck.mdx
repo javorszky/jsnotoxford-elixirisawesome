@@ -63,10 +63,11 @@ But these have blown my mind so far!
 
 # 1
 
-pretty much most things are an expression. An expression is a thing that has a return value
+<div style="padding: 20px"><p>
+pretty much most things are an expression. An expression is a thing that has a return value.</p></div>
 
 
-<CodeSurferColumns themes={[oceanicNext,themes.yellow]}>
+<CodeSurferColumns themes={[oceanicNext,themes.yellow]}  sizes={[3,2]}>
 
 <Step>
 
@@ -129,9 +130,10 @@ the return value
 
 # 2
 
-Code is organised into modules and functions within those modules
+<div style="padding: 20px"><p>
+Code is organised into modules and functions within those modules</p></div>
 
-<CodeSurferColumns themes={[oceanicNext,themes.yellow]}>
+<CodeSurferColumns themes={[oceanicNext,themes.yellow]}  sizes={[3,2]}>
 
 <Step>
 
@@ -183,8 +185,446 @@ end
 
 </CodeSurferColumns>
 
+---
 
+# 3
 
+<div style="padding: 20px">
+<p>Functions with the same name, but different <i>arity</i> are different functions.</p>
+
+<p>Arity: how many arguments go into a function.</p>
+</div>
+
+---
+
+<CodeSurferColumns themes={[oceanicNext,themes.yellow]} sizes={[3,2]}>
+
+<Step>
+
+```elixir 1:17
+defmodule Triangle do
+  def area(x) do
+    IO.puts("calculating equilateral triangle")
+    0.25 * 1.7320508075688772 * x * x
+  end
+
+  def area(base, sides) do
+    IO.puts("calculating isosceles triangle")
+    0.5 * base * base * :math.sqrt(((sides*sides)/(base*base)) - 0.25)
+  end
+
+  def area(x, y, z) do
+    IO.puts("calculating scalene triangle")
+    s = 0.5 * (x + y + z)
+    :math.sqrt(s * (s-x) * (s-y) * (s-z))
+  end
+end
+```
+
+<div style="padding: 20px">
+<p>Triangle module with three different functions all called `area` to calculate the areas differently for each of them.</p>
+</div>
+
+</Step>
+
+<Step>
+
+```elixir 2:5
+defmodule Triangle do
+  def area(x) do
+    IO.puts("calculating equilateral triangle")
+    0.25 * 1.7320508075688772 * x * x
+  end
+
+  def area(base, sides) do
+    IO.puts("calculating isosceles triangle")
+    0.5 * base * base * :math.sqrt(((sides*sides)/(base*base)) - 0.25)
+  end
+
+  def area(x, y, z) do
+    IO.puts("calculating scalene triangle")
+    s = 0.5 * (x + y + z)
+    :math.sqrt(s * (s-x) * (s-y) * (s-z))
+  end
+end
+```
+
+<div style="padding: 20px">
+<p>This is denoted as `Triangle.area/1`</p><p>The `/n` shows how many arguments go into a function</p>
+</div>
+
+</Step>
+
+<Step>
+
+```elixir 7:10
+defmodule Triangle do
+  def area(x) do
+    IO.puts("calculating equilateral triangle")
+    0.25 * 1.7320508075688772 * x * x
+  end
+
+  def area(base, sides) do
+    IO.puts("calculating isosceles triangle")
+    0.5 * base * base * :math.sqrt(((sides*sides)/(base*base)) - 0.25)
+  end
+
+  def area(x, y, z) do
+    IO.puts("calculating scalene triangle")
+    s = 0.5 * (x + y + z)
+    :math.sqrt(s * (s-x) * (s-y) * (s-z))
+  end
+end
+```
+
+<div style="padding: 20px">
+<p>Triangle.area/2</p>
+</div>
+
+</Step>
+
+<Step>
+
+```elixir 11:16
+defmodule Triangle do
+  def area(x) do
+    IO.puts("calculating equilateral triangle")
+    0.25 * 1.7320508075688772 * x * x
+  end
+
+  def area(base, sides) do
+    IO.puts("calculating isosceles triangle")
+    0.5 * base * base * :math.sqrt(((sides*sides)/(base*base)) - 0.25)
+  end
+
+  def area(x, y, z) do
+    IO.puts("calculating scalene triangle")
+    s = 0.5 * (x + y + z)
+    :math.sqrt(s * (s-x) * (s-y) * (s-z))
+  end
+end
+```
+
+<div style="padding: 20px">
+<p>Triangle.area/3</p>
+</div>
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+# 4
+
+## Private functions!
+
+Functions that can only be called by the same module.
+
+---
+
+<CodeSurferColumns themes={[oceanicNext,themes.yellow]} sizes={[3,2]}>
+
+<Step>
+
+```elixir 1:17
+defmodule Triangle do
+  def area(x) do
+    IO.puts("calculating equilateral triangle")
+    0.25 * 1.7320508075688772 * x * x
+  end
+
+  def area(base, sides) do
+    IO.puts("calculating isosceles triangle")
+    0.5 * base * base * :math.sqrt(((sides*sides)/(base*base)) - 0.25)
+  end
+
+  def area(x, y, z) do
+    IO.puts("calculating scalene triangle")
+    s = 0.5 * (x + y + z)
+    :math.sqrt(s * (s-x) * (s-y) * (s-z))
+  end
+end
+```
+
+<div style="padding: 20px">
+<p>This can be done more generically</p>
+</div>
+
+</Step>
+
+<Step>
+
+```elixir 4,9,14,17:20
+defmodule Triangle do
+  def area(x) do
+    IO.puts("calculating equilateral triangle")
+    generic_area(x, x, x)
+  end
+
+  def area(base, sides) do
+    IO.puts("calculating isosceles triangle")
+    generic_area(base, sides, sides)
+  end
+
+  def area(x, y, z) do
+    IO.puts("calculating scalene triangle")
+    generic_area(x, y, z)
+  end
+
+  defp generic_area(x, y, z) do
+    s = 0.5 * (x + y + z)
+    :math.sqrt(s * (s-x) * (s-y) * (s-z))
+  end
+end
+```
+
+<div style="padding: 20px">
+<p>`defp` is a private function. Only functions inside the same module can call it. You can't call Triangle.generic_area.</p>
+</div>
+
+</Step>
+
+<Step>
+
+```elixir
+iex(2)> Triangle.area(3)
+calculating equilateral triangle
+3.897114317029974
+iex(3)> Triangle.area(3,3)
+calculating isosceles triangle
+3.897114317029974
+iex(4)> Triangle.area(3,3,3)
+calculating scalene triangle
+3.897114317029974
+iex(5)> Triangle.generic_area(3,3,3)
+** (UndefinedFunctionError) function Triangle.generic_area/3 is undefined or private
+    Triangle.generic_area(3, 3, 3)
+```
+
+<div style="padding: 20px">
+<p>Output confirms that it works :)</p><p>And that you also can't call the private function</p>
+</div>
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+# 5
+
+## A list is a singly linked list
+
+An thus has an O(n) complexity to traverse or do pretty much anything with them.
+
+---
+
+<CodeSurferColumns themes={[oceanicNext,themes.yellow]} sizes={[3,2]}>
+
+<Step>
+
+```elixir
+[1, 2, 3, 4]
+
+is the same as
+
+[1 | [2, 3, 4]]
+
+and
+
+[1 | [2 | [3, 4]]]
+
+and
+
+[1 | [2 | [3 | [4]]]
+```
+
+```elixir
+[head | tail]
+
+where tail is the "rest of the list", or the rest of the 🦉
+```
+
+</Step>
+
+<Step>
+
+```elixir 5[2]
+[1, 2, 3, 4]
+
+is the same as
+
+[1 | [2, 3, 4]]
+
+and
+
+[1 | [2 | [3, 4]]]
+
+and
+
+[1 | [2 | [3 | [4]]]
+```
+
+```elixir
+[head | tail]
+
+where tail is the "rest of the list", or the rest of the 🦉
+```
+
+</Step>
+
+<Step>
+
+```elixir 5[6:14]
+[1, 2, 3, 4]
+
+is the same as
+
+[1 | [2, 3, 4]]
+
+and
+
+[1 | [2 | [3, 4]]]
+
+and
+
+[1 | [2 | [3 | [4]]]
+```
+
+```elixir
+[head | tail]
+
+where tail is the "rest of the list", or the rest of the 🦉
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+# 6
+
+## the = is actually pattern matching
+
+<CodeSurferColumns themes={[oceanicNext,themes.yellow]} sizes={[3,2]}>
+
+<Step>
+
+```elixir
+iex(1) > person = {"Bob", 25}
+```
+
+<div style="padding: 20px">
+<p>the thing on the right is matched into the thing on the left. `person` is going to be bound to that tuple</p>
+</div>
+
+</Step>
+
+<Step>
+
+```elixir
+iex(1)> {name, age} = {"Bob", 25}
+{"Bob", 25}
+iex(2)> name
+"Bob"
+iex(3)> age
+25
+```
+
+<div style="padding: 20px">
+<p>super useful to extract things from other things</p>
+</div>
+
+</Step>
+
+<Step>
+
+```elixir 1[10:13,24:28]
+iex(1)> {name, age} = {"Bob", 25}
+{"Bob", 25}
+iex(2)> name
+"Bob"
+iex(3)> age
+25
+```
+
+<div style="padding: 20px">
+<p>super useful to extract things from other things</p>
+</div>
+
+</Step>
+
+<Step>
+
+```elixir 1[15:18,31:32]
+iex(1)> {name, age} = {"Bob", 25}
+{"Bob", 25}
+iex(2)> name
+"Bob"
+iex(3)> age
+25
+```
+
+<div style="padding: 20px">
+<p>super useful to extract things from other things</p>
+</div>
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+Which also means we can do super cool extraction stuff like getting only the hour of the local time!
+
+<CodeSurferColumns themes={[oceanicNext,themes.yellow]} sizes={[3,2]}>
+
+<Step>
+
+```elixir
+iex(5)> :calendar.local_time()
+{{2021, 1, 13}, {17, 4, 16}}
+```
+
+<div style="padding: 20px">
+<p>nonmatched but evaluated local time looks like this</p>
+</div>
+
+</Step>
+
+<Step>
+
+```elixir
+iex(6)> {_, time} = :calendar.local_time()
+{{2021, 1, 13}, {17, 4, 16}}
+iex(7)> time
+{17, 4, 16}
+```
+
+<div style="padding: 20px">
+<p>separate them to date and time. The underscore means we don't care about that. Match it, but don't bind it.</p>
+</div>
+
+</Step>
+
+<Step>
+
+```elixir
+iex(8)> {_, {hour, _, _}} = :calendar.local_time()
+{{2021, 1, 13}, {17, 4, 16}}
+iex(9)> hour
+17
+```
+
+<div style="padding: 20px">
+<p>and voila, we can go arbitrarily deep in the structure of the result.</p>
+</div>
+
+</Step>
+
+</CodeSurferColumns>
 
 ---
 
