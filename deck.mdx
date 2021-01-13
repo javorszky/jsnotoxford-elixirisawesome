@@ -3,17 +3,210 @@ import {
   CodeSurferColumns,
   Step,
 } from "code-surfer";
-import { github, vsDark } from "@code-surfer/themes";
+import { oceanicNext } from "@code-surfer/themes";
+import {
+  themes,
+} from "mdx-deck"
+import "prismjs/components/prism-elixir"
 
-export const theme = vsDark;
+import elixirlogo from "./static/elixirlogo.png"
+export const theme = themes.yellow;
 
-# Hello 👋
 
-You are using [MDX Deck](https://github.com/jxnblk/mdx-deck) and [Code Surfer](https://codesurfer.pomb.us)
+# Elixir is amazing! 😍
 
 ---
 
-<CodeSurfer>
+# Who?
+
+## Gabor Javorszky
+backend developer (Go mainly)
+
+Hello 👋
+
+---
+
+# But what is
+
+<img src={elixirlogo} />
+
+---
+<blockquote>
+  <p>”Elixir is a dynamic, functional language designed for building scalable and maintainable applications.</p>
+  <p>Elixir leverages the Erlang VM, known for running low-latency, distributed and fault-tolerant systems, while also being successfully used in web development, embedded software, data ingestion, and multimedia processing domains across a wide range of industries.”</p>
+  <footer>
+    <cite>— <a href="https://elixir-lang.org/">elixir site</a></cite>
+  </footer>
+</blockquote>
+
+---
+
+### dynamic:
+
+no type hint / type coercion when writing code
+
+### functional:
+
+everything is done with functions with no side effects. Also data is immutable!
+
+---
+
+# note before we go further
+
+I'm on page 100 of the 350 page book.
+
+I don't know a LOT of things.
+
+But these have blown my mind so far!
+
+---
+
+# 1
+
+pretty much most things are an expression. An expression is a thing that has a return value
+
+
+<CodeSurferColumns themes={[oceanicNext,themes.yellow]}>
+
+<Step>
+
+```elixir
+iex(1) > 2 * (
+          3+ 1
+        )/ 4
+2.0
+```
+
+Everything together
+
+</Step>
+
+<Step>
+
+```elixir 1[1:8]
+iex(1) > 2 * (
+          3+ 1
+        )/ 4
+2.0
+```
+
+The shell
+
+</Step>
+
+<Step>
+
+```elixir 1[10:14],2,3
+iex(1) > 2 * (
+          3+ 1
+        )/ 4
+2.0
+```
+
+<div style="padding: 20px">
+<p>An expression</p><p>If you hit enter in the shell while the expression is not finished, it will give you a new line to keep writing. Once the expression can be finished, it evaluates.</p>
+</div>
+
+
+</Step>
+
+<Step>
+
+```elixir 4
+iex(1) > 2 * (
+          3+ 1
+        )/ 4
+2.0
+```
+
+the return value
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+# 2
+
+Code is organised into modules and functions within those modules
+
+<CodeSurferColumns themes={[oceanicNext,themes.yellow]}>
+
+<Step>
+
+```elixir
+defmodule MyModule
+  def add(x, y) do
+    x+y
+  end
+end
+```
+
+<div style="padding: 20px">
+<p>A module with a function</p>
+</div>
+
+</Step>
+
+<Step>
+
+```elixir 1,5
+defmodule MyModule
+  def add(x, y) do
+    x+y
+  end
+end
+```
+
+<div style="padding: 20px">
+<p>Module definition goes between `defmodule SomeName do ... end` blocks</p>
+</div>
+
+</Step>
+
+<Step>
+
+```elixir 2:4
+defmodule MyModule
+  def add(x, y) do
+    x+y
+  end
+end
+```
+
+<div style="padding: 20px">
+<p>Function definition goes between `def SomeName do ... end` blocks</p>
+</div>
+
+</Step>
+
+</CodeSurferColumns>
+
+
+
+
+---
+
+
+<CodeSurfer theme={oceanicNext}>
+
+```js 1:2,3[8:10]
+console.log(1);
+console.log(2);
+console.log(3);
+```
+
+```js 1:2,3[8:10]
+console.log(1);
+
+function bla() {
+  echo some content;
+}
+
+console.log(2);
+console.log(3);
+```
 
 ```js title="This is a title" subtitle="and this a subtitle"
 function lorem(ipsum, dolor = 1) {
@@ -98,7 +291,7 @@ function incididunt(ipsum, ut = 1) {
 
 ---
 
-<CodeSurferColumns themes={[vsDark, github]}>
+<CodeSurferColumns>
 
 <Step>
 
@@ -148,5 +341,5 @@ const sed = (eiusmod, tempor, incididunt) => {
 
 ---
 
-docs:  
+docs:
 [codesurfer.pomb.us](https://codesurfer.pomb.us)
