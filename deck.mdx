@@ -8,6 +8,7 @@ import {
   themes,
 } from "mdx-deck"
 import "prismjs/components/prism-elixir"
+import "prismjs/components/prism-go"
 
 import elixirlogo from "./static/elixirlogo.png"
 export const theme = themes.yellow;
@@ -628,151 +629,431 @@ iex(9)> hour
 
 ---
 
+Because the = is a match, we can do things like this:
 
-<CodeSurfer theme={oceanicNext}>
-
-```js 1:2,3[8:10]
-console.log(1);
-console.log(2);
-console.log(3);
-```
-
-```js 1:2,3[8:10]
-console.log(1);
-
-function bla() {
-  echo some content;
-}
-
-console.log(2);
-console.log(3);
-```
-
-```js title="This is a title" subtitle="and this a subtitle"
-function lorem(ipsum, dolor = 1) {
-  const sit = ipsum == null ? 0 : ipsum.sit;
-  dolor = sit - amet(dolor);
-  return sit
-    ? consectetur(ipsum, 0, dolor < 0 ? 0 : dolor)
-    : [];
-}
-
-function incididunt(ipsum, ut = 1) {
-  ut = labore.et(amet(ut), 0);
-  const sit = ipsum == null ? 0 : ipsum.sit;
-
-  if (!sit || ut < 1) {
-    return [];
-  }
-
-  let dolore = 0;
-  let magna = 0;
-  const aliqua = new eiusmod(labore.ut(sit / ut));
-
-  while (dolore < sit) {
-    aliqua[magna++] = consectetur(
-      ipsum,
-      dolore,
-      (dolore += ut)
-    );
-  }
-
-  return aliqua;
-}
-```
-
-```js
-function lorem(ipsum, dolor = 1) {
-  const sit = ipsum == null ? 0 : ipsum.sit;
-  dolor = sit - amet(dolor);
-  return sit
-    ? consectetur(ipsum, 0, dolor < 0 ? 0 : dolor)
-    : [];
-}
-
-function adipiscing(...elit) {
-  if (!elit.sit) {
-    return [];
-  }
-
-  const sed = elit[0];
-  return eiusmod.tempor(sed) ? sed : [sed];
-}
-
-function incididunt(ipsum, ut = 1) {
-  ut = labore.et(amet(ut), 0);
-  const sit = ipsum == null ? 0 : ipsum.sit;
-
-  if (!sit || ut < 1) {
-    return [];
-  }
-
-  let dolore = 0;
-  let magna = 0;
-  const aliqua = new eiusmod(labore.ut(sit / ut));
-
-  while (dolore < sit) {
-    aliqua[magna++] = consectetur(
-      ipsum,
-      dolore,
-      (dolore += ut)
-    );
-  }
-
-  return aliqua;
-}
-```
-
-```diff 1[10:14],2[15:19],3[22:27],10:12
-
-```
-
-</CodeSurfer>
-
----
-
-<CodeSurferColumns>
+<CodeSurferColumns themes={[oceanicNext,themes.yellow]} sizes={[3,2]}>
 
 <Step>
 
-```js
-const magna = aliqua => aliqua.ut((enim, ad) => enim, 0);
+```elixir
+iex(12)> {amount, amount, amount} = {127, 127, 127}
+{127, 127, 127}
 ```
 
-```js
-const minim = (ad, enim) => dolore.magna(ad / enim);
-```
+<div style="padding: 20px">
+<p>this matches, because all elements on the right are the same</p>
+</div>
 
 </Step>
 
 <Step>
 
-```js
-const lorem = (ipsum, dolor, sit) => {
-  const amet = dolor - ipsum;
-  return consectetur.adipiscing(
-    {
-      elit: sed.eiusmod(sit - dolor) / amet + 2,
-    },
-    (tempor, incididunt) => ipsum + amet * incididunt
-  );
-};
-
-const magna = aliqua => aliqua.ut((enim, ad) => enim, 0);
+```elixir
+iex(13)> {amount, amount, amount} = {127, 127, 1}
+** (MatchError) no match of right hand side value: {127, 127, 1}
 ```
 
-```js
-const minim = (ad, enim) => dolore.magna(ad / enim);
+<div style="padding: 20px">
+<p>this does not match, because the left pattern wants three equal things, the right doesn't have it</p>
+</div>
 
-const sed = (eiusmod, tempor, incididunt) => {
-  const ut = tempor - eiusmod;
-  return labore.et(
-    {
-      amet: dolore.magna(incididunt - tempor) / ut + 2,
-    },
-    (aliqua, elit) => eiusmod + ut * elit
-  );
-};
+</Step>
+
+<Step>
+
+```elixir
+iex(14)> expected_name = "Bob"
+"Bob"
+iex(15)> {^expected_name, _} = {"Bob", 25}
+{"Bob", 25}
+iex(16)> {^expected_name, _} = {"Alice", 30}
+** (MatchError) no match of right hand side value: {"Alice", 30}
+```
+
+<div style="padding: 20px">
+<p>Matches to the content of the variable expected_name. Unless Alice is not Bob.</p>
+</div>
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+Remember how lists are linked lists with head / tail?
+
+<CodeSurferColumns themes={[oceanicNext,themes.yellow]} sizes={[3,2]}>
+
+<Step>
+
+```elixir
+iex(3)> [head | tail] = [1, 2, 3]
+[1, 2, 3]
+iex(4)> head
+1
+iex(5)> tail
+[2, 3]
+```
+
+<div style="padding: 20px">
+<p>easy to separate them</p>
+</div>
+
+</Step>
+
+<Step>
+
+```elixir 1[10:13,26],3,4
+iex(3)> [head | tail] = [1, 2, 3]
+[1, 2, 3]
+iex(4)> head
+1
+iex(5)> tail
+[2, 3]
+```
+
+<div style="padding: 20px">
+<p>easy to separate them</p>
+</div>
+
+</Step>
+
+<Step>
+
+```elixir 1[17:20,29:32],5,6
+iex(3)> [head | tail] = [1, 2, 3]
+[1, 2, 3]
+iex(4)> head
+1
+iex(5)> tail
+[2, 3]
+```
+
+<div style="padding: 20px">
+<p>easy to separate them</p>
+</div>
+
+</Step>
+
+<Step>
+
+```elixir 1:8
+iex(1)> [first, second, third] = [1, 2, 3]
+[1, 2, 3]
+iex(2)> first
+1
+iex(3)> second
+2
+iex(4)> third
+3
+```
+
+<div style="padding: 20px">
+<p>or if you'd like to deconstruct the entire list, do that</p>
+</div>
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+# 7
+
+## multiclause functions
+
+<div style="padding: 20px">
+<p>Functions with different arity are different, right? But if you combine same arity and pattern matching, magic happens!</p>
+</div>
+
+---
+
+<CodeSurferColumns themes={[oceanicNext,themes.yellow]} sizes={[3,2]}>
+
+<Step>
+
+```elixir
+defmodule Geometry do
+  def area({:rectangle, a, b}) do
+    a * b
+  end
+  def area({:square, a}) do
+    a * a
+  end
+  def area({:circle, r}) do
+    r * r * 3.14
+  end
+end
+```
+
+<div style="padding: 20px">
+<p>all three are `area/1`, because the one argument they take is a tuple between the curly braces</p><p>the difference is what's in the tuple</p>
+</div>
+
+</Step>
+
+<Step>
+
+```elixir 1,10:12
+iex(1)> Geometry.area({:circle, 83})
+
+defmodule Geometry do
+  def area({:rectangle, a, b}) do
+    a * b
+  end
+  def area({:square, a}) do
+    a * a
+  end
+  def area({:circle, r}) do
+    r * r * 3.14
+  end
+end
+```
+
+<div style="padding: 20px">
+<p>the BEAM (virtual machine) will try to match each clause from top to bottom, and calls the first that matches. In this case the third one.</p>
+</div>
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+# 8
+
+## Guards
+
+<div style="padding: 20px">
+<p>Almost like multiclause functions, but slightly different</p>
+</div>
+
+---
+
+<CodeSurferColumns themes={[oceanicNext,themes.yellow]} sizes={[3,2]}>
+
+<Step>
+
+```elixir
+defmodule TestNum do
+  def test(x) when x < 0 do
+    :negative
+  end
+  def test(0), do: :zero
+  def test(x) when x > 0 do
+    :positive
+  end
+end
+```
+
+
+<div style="padding: 20px">
+<p>if the value of the argument to `test/1` is negative, call the first, 0, call the second, positive, call the third.</p>
+</div>
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+## arity, multiclause, guards, pattern matching
+
+<div style="padding: 20px">
+<p>they eliminate a LOT of work that we need to deal with data checking inside our functions, like JavaScript or PHP.</p><p>Pattern matching replaces a whole bunch of regex applications.</p>
+</div>
+
+---
+
+# 9
+
+## loops, iterations
+
+<div style="padding: 20px">
+<p>Everything is a recursive call, except for `comprehensions`</p>
+<p>Tail recursion incurs no memory overhead, so can go arbitrarily long</p>
+</div>
+
+---
+
+<CodeSurferColumns themes={[oceanicNext,themes.yellow]} sizes={[3,2]}>
+
+<Step>
+
+```elixir
+defmodule ListHelper do
+  def sum([]), do: 0
+  def sum([head | tail]) do
+    head + sum(tail)
+  end
+end
+```
+
+<div style="padding: 20px">
+<p>Calculates the sum of a list. No for loop, no intermediate variable, just multiclause functions and pattern matching / deconstruction.</p>
+<p>This is not tail recursive though, because the last thing that happens is an addition</p>
+</div>
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns themes={[oceanicNext,themes.yellow]} sizes={[3,2]}>
+
+<Step>
+
+```elixir
+defmodule ListHelper do
+  def sum(list) do
+    do_sum(0, list)
+  end
+  defp do_sum(current_sum, []) do
+    current_sum
+  end
+  defp do_sum(current_sum, [head | tail]) do
+    new_sum = head + current_sum
+    do_sum(new_sum, tail)
+  end
+end
+```
+
+<div style="padding: 20px">
+<p>This is the same functionality with tail recursion, a public, and two private functions with pattern matching and deconstruction.</p>
+</div>
+
+</Step>
+
+<Step>
+
+```elixir 2
+defmodule ListHelper do
+  def sum(list) do
+    do_sum(0, list)
+  end
+  defp do_sum(current_sum, []) do
+    current_sum
+  end
+  defp do_sum(current_sum, [head | tail]) do
+    new_sum = head + current_sum
+    do_sum(new_sum, tail)
+  end
+end
+```
+
+<div style="padding: 20px">
+<p>you call this</p>
+</div>
+
+</Step>
+
+<Step>
+
+```elixir 8:11
+defmodule ListHelper do
+  def sum(list) do
+    do_sum(0, list)
+  end
+  defp do_sum(current_sum, []) do
+    current_sum
+  end
+  defp do_sum(current_sum, [head | tail]) do
+    new_sum = head + current_sum
+    do_sum(new_sum, tail)
+  end
+end
+```
+
+<div style="padding: 20px">
+<p>incoming to do_sum you have whatever you had previously, and the list's head, and the rest of the list.</p>
+<p>then you do math, and keep doing it until the tail is an empty list</p>
+</div>
+
+</Step>
+
+<Step>
+
+```elixir 5:7
+defmodule ListHelper do
+  def sum(list) do
+    do_sum(0, list)
+  end
+  defp do_sum(current_sum, []) do
+    current_sum
+  end
+  defp do_sum(current_sum, [head | tail]) do
+    new_sum = head + current_sum
+    do_sum(new_sum, tail)
+  end
+end
+```
+
+<div style="padding: 20px">
+<p>and when it is an empty list, you return whatever you had until that point</p>
+</div>
+
+</Step>
+
+<Step>
+
+```elixir 10
+defmodule ListHelper do
+  def sum(list) do
+    do_sum(0, list)
+  end
+  defp do_sum(current_sum, []) do
+    current_sum
+  end
+  defp do_sum(current_sum, [head | tail]) do
+    new_sum = head + current_sum
+    do_sum(new_sum, tail)
+  end
+end
+```
+
+<div style="padding: 20px">
+<p>and it's tail recursive because the very last thing that happens inside the func is calling another func</p>
+</div>
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+# 10
+
+## comprehensions
+
+<div style="padding: 20px"><p>
+Essentially code that elixir can figure out what to do with.
+</p></div>
+
+---
+
+<CodeSurferColumns themes={[oceanicNext,themes.yellow]} sizes={[3,2]}>
+
+<Step>
+
+```elixir
+# elixir
+iex(2)> for x <- [1, 2, 3], y <- [1, 2, 3], do: {x, y, x*y}
+[
+  {1, 1, 1}, {1, 2, 2}, {1, 3, 3},
+  {2, 1, 2}, {2, 2, 4}, {2, 3, 6},
+  {3, 1, 3}, {3, 2, 6}, {3, 3, 9}
+]
+```
+
+```go
+# go
+table := make([][]int, 0)
+for i := 1; i < 4; i++ {
+  for j := 1; j < 4; j++ {
+    table = append(table, []int{i, j, i*j})
+  }
+}
 ```
 
 </Step>
@@ -781,5 +1062,10 @@ const sed = (eiusmod, tempor, incididunt) => {
 
 ---
 
-docs:
-[codesurfer.pomb.us](https://codesurfer.pomb.us)
+# 11
+
+## End for today
+
+<div style="padding: 20px">
+<p>This was a not at all exhaustive list of cool stuff elixir does. I will try to answer some questions!</p>
+</div>
